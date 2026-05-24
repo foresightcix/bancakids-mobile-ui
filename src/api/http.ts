@@ -1,10 +1,19 @@
 import Constants from "expo-constants";
+import { Platform } from "react-native";
 import { useAuthStore } from "@/store/auth";
 
-const getApiUrl = () =>
+const getConfiguredApiUrl = () =>
   Constants.expoConfig?.extra?.apiUrl as string | undefined;
 
-export const isMock = () => !getApiUrl();
+/** En web usa el proxy de Metro (`/api`) para evitar CORS en el navegador. */
+const resolveApiUrl = () => {
+  const configured = getConfiguredApiUrl();
+  if (!configured) return undefined;
+  if (Platform.OS === "web") return "/api";
+  return configured;
+};
+
+export const isMock = () => !getConfiguredApiUrl();
 
 export type RequestOptions = RequestInit & {
   /** No envía Authorization (p. ej. login antes de tener token). */
@@ -14,8 +23,9 @@ export type RequestOptions = RequestInit & {
 export async function request<T>(
   path: string,
   options: RequestOptions = {},
+  idempotency_key: string|null = null
 ): Promise<T> {
-  const apiUrl = getApiUrl();
+  const apiUrl = resolveApiUrl();
   if (!apiUrl) {
     throw new Error("API_URL not configured");
   }
@@ -29,6 +39,9 @@ export async function request<T>(
   }
   if (!skipAuth && token) {
     headers.set("Authorization", `Bearer ${token}`);
+  }
+  if (idempotency_key) {
+    headers.set("idempotency_key", idempotency_key);
   }
 
   const response = await fetch(`${apiUrl}${path}`, { ...init, headers });
