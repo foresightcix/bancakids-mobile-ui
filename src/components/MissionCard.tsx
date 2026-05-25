@@ -64,13 +64,13 @@ export function MissionCard({ mission }: Props) {
   const iconColor = locked ? colors.placeholder : cfg.iconColor;
   const nameColor = locked ? colors.placeholder : colors.textHeading;
 
+  const isActive = mission.status === "active";
   const borderColor =
-    mission.status === "in_progress"
+    mission.status === "in_progress" || isActive
       ? mission.borderColor
-      : locked
-        ? colors.neutral200
-        : colors.neutral200;
-  const borderWidth = mission.status === "in_progress" ? 1.5 : 1;
+      : colors.neutral200;
+  const borderWidth =
+    mission.status === "in_progress" || isActive ? 1.5 : 1;
 
   return (
     <Pressable

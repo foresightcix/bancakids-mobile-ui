@@ -1,9 +1,50 @@
 import { Mission } from "@/types";
 
 /**
- * Nombres y badges extraídos directamente del diseño Enseñar 1 - Hub de Misiones.
+ * Estados:
+ *  - active     → sin intentos aún (badge "Empezar"). Demo del primer intento.
+ *  - in_progress→ con uno o más intentos previos (continuar/redo).
+ *  - completed  → todos los intentos terminados.
+ *  - locked     → no disponible aún.
  */
 export const mockMissions: Mission[] = [
+  // ─── Activas SIN intentos previos (demo flujo "primera vez") ───
+  {
+    id: "m_005",
+    title: "Reconocer billetes y monedas",
+    description:
+      "Sofi aprende a identificar y nombrar las monedas y billetes con los que conviven cada día.",
+    category: "ahorrar",
+    status: "active",
+    currentStep: 0,
+    totalSteps: 4,
+    progress: 0,
+    estimatedMinutes: 10,
+    emoji: "💵",
+    bgColor: "#FFFFFF",
+    borderColor: "#1E69FF",
+    tagLabel: "Empezar",
+    tagBg: "#E1EEFB",
+  },
+  {
+    id: "m_006",
+    title: "Mi primera compra responsable",
+    description:
+      "Practicar antes de comprar: parar, pensar y elegir si vale la pena.",
+    category: "gastar_bien",
+    status: "active",
+    currentStep: 0,
+    totalSteps: 3,
+    progress: 0,
+    estimatedMinutes: 12,
+    emoji: "🛍️",
+    bgColor: "#FFFFFF",
+    borderColor: "#2E7D32",
+    tagLabel: "Empezar",
+    tagBg: "#E8F5E9",
+  },
+
+  // ─── In progress (intentos previos · demo flujo redo) ───
   {
     id: "m_001",
     title: "Valorar el valor del dinero",
@@ -40,6 +81,8 @@ export const mockMissions: Mission[] = [
     tagLabel: "Intento 1",
     tagBg: "#E8F5E9",
   },
+
+  // ─── Bloqueadas ───
   {
     id: "m_003",
     title: "Regalos con sentido",

@@ -43,7 +43,7 @@ export default function FeedbackAlcancia() {
     setActivating(true);
     await new Promise((r) => setTimeout(r, 1500));
     setActivating(false);
-    router.push(`/ejecutar-mision/${id}/feedback-padre` as never);
+    router.replace(`/ejecutar-mision/${id}/feedback-padre` as never);
   };
 
   return (

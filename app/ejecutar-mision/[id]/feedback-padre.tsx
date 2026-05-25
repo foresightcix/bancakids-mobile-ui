@@ -54,7 +54,7 @@ export default function FeedbackPadre() {
       return;
     }
     setError(false);
-    router.push(`/ejecutar-mision/${id}/evaluacion` as never);
+    router.replace(`/ejecutar-mision/${id}/evaluacion` as never);
   };
 
   return (

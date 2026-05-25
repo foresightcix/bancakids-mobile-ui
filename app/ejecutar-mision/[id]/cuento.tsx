@@ -182,7 +182,7 @@ export default function Cuento() {
           fullWidth
           rightIcon={<ArrowRight size={18} color="#FFFFFF" weight="bold" />}
           onPress={() =>
-            router.push(`/ejecutar-mision/${id}/guia-mision` as never)
+            router.replace(`/ejecutar-mision/${id}/guia-mision` as never)
           }
         />
         <Button

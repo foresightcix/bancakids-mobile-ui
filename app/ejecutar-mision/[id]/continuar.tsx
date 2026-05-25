@@ -41,7 +41,7 @@ export default function ContinuarMision() {
       <AppHeader variant="home" />
       <View style={{ paddingHorizontal: 20, paddingTop: 4 }}>
         <Pressable
-          onPress={() => router.back()}
+          onPress={() => router.replace("/ensenar" as never)}
           hitSlop={12}
           accessibilityRole="button"
           accessibilityLabel="Volver a Misiones"
@@ -263,7 +263,7 @@ export default function ContinuarMision() {
 
       <View style={{ paddingHorizontal: 20, paddingVertical: 12, gap: 10 }}>
         <Pressable
-          onPress={() => router.push(`/ejecutar-mision/${id}/activa` as never)}
+          onPress={() => router.replace(`/ejecutar-mision/${id}/activa` as never)}
           accessibilityRole="button"
           accessibilityLabel="Continuar donde me quedé"
           style={({ pressed }) => ({

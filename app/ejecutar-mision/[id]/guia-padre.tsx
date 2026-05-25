@@ -243,7 +243,7 @@ export default function GuiaPadre() {
           fullWidth
           rightIcon={<ArrowRight size={18} color="#FFFFFF" weight="bold" />}
           onPress={() =>
-            router.push(`/ejecutar-mision/${id}/cuento` as never)
+            router.replace(`/ejecutar-mision/${id}/cuento` as never)
           }
         />
       </View>

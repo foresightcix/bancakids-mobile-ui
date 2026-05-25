@@ -193,7 +193,7 @@ export default function Activa() {
         </View>
 
         <Pressable
-          onPress={() => router.back()}
+          onPress={() => router.replace(`/ejecutar-mision/${id}/cuento` as never)}
           accessibilityRole="button"
           style={({ pressed }) => ({
             flexDirection: "row",
@@ -220,7 +220,7 @@ export default function Activa() {
           disabled={!allDone}
           onPress={() => {
             recordAttempt(id ?? "", "mission");
-            router.push(`/ejecutar-mision/${id}/feedback-alcancia` as never);
+            router.replace(`/ejecutar-mision/${id}/feedback-alcancia` as never);
           }}
         />
       </View>

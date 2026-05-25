@@ -36,7 +36,7 @@ export default function EvaluacionPadre() {
     setLoading(true);
     await new Promise((r) => setTimeout(r, 1000));
     setLoading(false);
-    router.push(`/ejecutar-mision/${id}/insight` as never);
+    router.replace(`/ejecutar-mision/${id}/insight` as never);
   };
 
   return (
@@ -76,7 +76,9 @@ export default function EvaluacionPadre() {
             Evaluación del padre
           </Text>
           <Pressable
-            onPress={() => router.back()}
+            onPress={() =>
+              router.replace(`/ejecutar-mision/${id}/feedback-padre` as never)
+            }
             hitSlop={8}
             accessibilityRole="button"
             accessibilityLabel="Cerrar"

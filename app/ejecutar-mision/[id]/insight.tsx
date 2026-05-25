@@ -178,7 +178,7 @@ export default function InsightGenerado() {
 
       <View style={{ paddingHorizontal: 20, paddingVertical: 12, gap: 12 }}>
         <Pressable
-          onPress={() => router.push(`/ejecutar-mision/${id}/completada` as never)}
+          onPress={() => router.replace(`/ejecutar-mision/${id}/completada` as never)}
           accessibilityRole="button"
           style={({ pressed }) => ({
             backgroundColor: "#2E7D32",

@@ -118,7 +118,7 @@ export default function MisionCompletada() {
             size="md"
             fullWidth
             onPress={() =>
-              router.push(`/ejecutar-mision/${id}/redo` as never)
+              router.replace(`/ejecutar-mision/${id}/redo` as never)
             }
           />
           <Button
