@@ -9,11 +9,14 @@ import {
 } from "phosphor-react-native";
 import { AppHeader } from "@/components/AppHeader";
 import { Button } from "@/components/ui/Button";
+import { useMissionAttempts } from "@/store/missionAttempts";
 import { colors } from "@/theme/tokens";
 
 export default function MisionCompletada() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
+  // El intento que se acaba de completar es el último registrado en el store
+  const attempt = useMissionAttempts((s) => s.getCount(id ?? "")) || 1;
 
   return (
     <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
@@ -45,7 +48,7 @@ export default function MisionCompletada() {
           <Text
             style={{ color: "#2E7D32", fontSize: 13, fontWeight: "600" }}
           >
-            Intento 1 completado
+            Intento {attempt} completado
           </Text>
         </View>
 
@@ -88,7 +91,9 @@ export default function MisionCompletada() {
               textAlign: "center",
             }}
           >
-            ¡Gran trabajo en el primer paso!
+            {attempt === 1
+              ? "¡Gran trabajo en el primer paso!"
+              : `¡Excelente intento #${attempt}!`}
           </Text>
           <Text
             style={{
@@ -99,8 +104,9 @@ export default function MisionCompletada() {
               maxWidth: 300,
             }}
           >
-            Has completado el primer intento de esta misión. Ahora
-            reflexionaremos juntos sobre lo aprendido.
+            {attempt === 1
+              ? "Has completado el primer intento de esta misión. Ahora reflexionaremos juntos sobre lo aprendido."
+              : "Los insights de este intento se sumarán a los anteriores para profundizar el aprendizaje."}
           </Text>
         </View>
 

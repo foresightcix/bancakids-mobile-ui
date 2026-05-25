@@ -95,7 +95,8 @@ export default function EnsenarTab() {
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ gap: 8 }}
+          style={{ flexGrow: 0, maxHeight: 48 }}
+          contentContainerStyle={{ gap: 8, alignItems: "center" }}
         >
           {CHIPS.map((c) => (
             <Chip

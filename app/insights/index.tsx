@@ -131,10 +131,12 @@ export default function InsightsScreen() {
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
+        style={{ flexGrow: 0, maxHeight: 48 }}
         contentContainerStyle={{
           paddingHorizontal: 20,
           gap: 8,
           paddingBottom: 12,
+          alignItems: "center",
         }}
       >
         <CompChip
