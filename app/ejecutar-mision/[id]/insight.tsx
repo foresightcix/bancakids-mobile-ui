@@ -196,8 +196,9 @@ export default function InsightGenerado() {
           </Text>
         </Pressable>
         <Pressable
-          onPress={() => router.replace(`/ejecutar-mision/${id}/guia-padre` as never)}
+          onPress={() => router.replace(`/ejecutar-mision/${id}/redo` as never)}
           accessibilityRole="button"
+          accessibilityLabel="Volver a realizar misión"
           style={({ pressed }) => ({
             height: 50,
             borderRadius: 11,
