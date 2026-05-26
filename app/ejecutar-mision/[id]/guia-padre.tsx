@@ -14,6 +14,7 @@ import { api } from "@/api";
 import { useMissionAttempts } from "@/store/missionAttempts";
 import type { Mission } from "@/types";
 import { colors } from "@/theme/tokens";
+import { BottomTabBar } from "@/components/BottomTabBar";
 
 const LEVELS: {
   key: "verde" | "ambar" | "rojo";
@@ -247,6 +248,7 @@ export default function GuiaPadre() {
           }
         />
       </View>
+      <BottomTabBar activeKey="ensenar" />
     </View>
   );
 }

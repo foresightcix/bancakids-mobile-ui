@@ -8,6 +8,7 @@ import { Logo } from "@/components/ui/Logo";
 import { api } from "@/api";
 import type { Mission } from "@/types";
 import { colors } from "@/theme/tokens";
+import { BottomTabBar } from "@/components/BottomTabBar";
 
 export default function InsightGenerado() {
   const router = useRouter();
@@ -216,6 +217,7 @@ export default function InsightGenerado() {
           </Text>
         </Pressable>
       </View>
+      <BottomTabBar activeKey="ensenar" />
     </View>
   );
 }

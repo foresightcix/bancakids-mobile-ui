@@ -5,6 +5,7 @@ import { FlowHeader } from "@/components/FlowHeader";
 import { FlowFooter } from "@/components/FlowFooter";
 import { useCargarFlow, type CargarSender } from "@/store/cargarFlow";
 import { colors } from "@/theme/tokens";
+import { BottomTabBar } from "@/components/BottomTabBar";
 
 const SENDERS: {
   key: CargarSender;
@@ -229,6 +230,7 @@ export default function QuienEnviaScreen() {
         </Pressable>
       </ScrollView>
       <FlowFooter label="Siguiente" onPress={onSubmit} disabled={disabled} />
+      <BottomTabBar activeKey="cargar" />
     </View>
   );
 }

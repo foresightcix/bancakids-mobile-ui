@@ -6,6 +6,7 @@ import { ArrowLeft, Target } from "phosphor-react-native";
 import { AppHeader } from "@/components/AppHeader";
 import { Button } from "@/components/ui/Button";
 import { colors } from "@/theme/tokens";
+import { BottomTabBar } from "@/components/BottomTabBar";
 
 interface FormData {
   title: string;
@@ -200,6 +201,7 @@ export default function CrearMeta() {
           onPress={handleSubmit(onSubmit)}
         />
       </View>
+      <BottomTabBar activeKey="monitorear" />
     </View>
   );
 }

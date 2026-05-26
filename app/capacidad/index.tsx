@@ -13,6 +13,7 @@ import {
 } from "phosphor-react-native";
 import { AppHeader } from "@/components/AppHeader";
 import { colors, shadows } from "@/theme/tokens";
+import { BottomTabBar } from "@/components/BottomTabBar";
 
 interface Stat {
   key: string;
@@ -367,6 +368,7 @@ export default function MetasAprendizaje() {
           ))}
         </View>
       </ScrollView>
+      <BottomTabBar activeKey="monitorear" />
     </View>
   );
 }

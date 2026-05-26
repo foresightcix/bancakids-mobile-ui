@@ -18,6 +18,7 @@ import {
 } from "phosphor-react-native";
 import { AppHeader } from "@/components/AppHeader";
 import { Button } from "@/components/ui/Button";
+import { BottomTabBar } from "@/components/BottomTabBar";
 import { SuccessToast } from "@/components/states";
 import { colors } from "@/theme/tokens";
 
@@ -270,6 +271,8 @@ export default function FeedbackPadre() {
         message={toast ?? ""}
         onClose={() => setToast(null)}
       />
+
+      <BottomTabBar activeKey="ensenar" />
     </KeyboardAvoidingView>
   );
 }

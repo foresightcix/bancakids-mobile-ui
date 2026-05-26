@@ -26,6 +26,7 @@ import { api } from "@/api";
 import type { SavingGoal } from "@/types";
 import { colors } from "@/theme/tokens";
 import { formatCurrency } from "@/utils/format";
+import { BottomTabBar } from "@/components/BottomTabBar";
 
 export default function MetaCompletada() {
   const router = useRouter();
@@ -465,6 +466,7 @@ export default function MetaCompletada() {
           </View>
         </View>
       </BottomSheet>
+      <BottomTabBar activeKey="monitorear" />
     </View>
   );
 }

@@ -23,6 +23,7 @@ import { AppHeader } from "@/components/AppHeader";
 import { Button } from "@/components/ui/Button";
 import { api, getEscenario } from "@/api";
 import { useMissionAttempts } from "@/store/missionAttempts";
+import { BottomTabBar } from "@/components/BottomTabBar";
 import type { Mission } from "@/types";
 import { colors } from "@/theme/tokens";
 
@@ -374,6 +375,8 @@ export default function PracticaIA() {
           onPress={() => router.back()}
         />
       </View>
+
+      <BottomTabBar activeKey="ensenar" />
     </View>
   );
 }

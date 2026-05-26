@@ -14,6 +14,7 @@ import { FlowHeader } from "@/components/FlowHeader";
 import { FlowFooter } from "@/components/FlowFooter";
 import { useCargarFlow, type CargarMotivo } from "@/store/cargarFlow";
 import { colors } from "@/theme/tokens";
+import { BottomTabBar } from "@/components/BottomTabBar";
 
 const MOTIVOS: {
   key: CargarMotivo;
@@ -153,6 +154,7 @@ export default function MotivoScreen() {
         onPress={onSubmit}
         disabled={!motivo}
       />
+      <BottomTabBar activeKey="cargar" />
     </View>
   );
 }

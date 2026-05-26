@@ -15,6 +15,7 @@ import { api } from "@/api";
 import type { SavingGoal, Transaction } from "@/types";
 import { colors } from "@/theme/tokens";
 import { formatCurrency, formatShortDate, percent } from "@/utils/format";
+import { BottomTabBar } from "@/components/BottomTabBar";
 
 export default function MetaDetail() {
   const router = useRouter();
@@ -302,6 +303,7 @@ export default function MetaDetail() {
           onPress={() => router.push(`/meta/editar/${goal.id}` as never)}
         />
       </View>
+      <BottomTabBar activeKey="monitorear" />
     </View>
   );
 }

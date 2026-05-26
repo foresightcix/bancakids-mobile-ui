@@ -13,6 +13,7 @@ import { api } from "@/api";
 import type { Insight } from "@/types";
 import { colors } from "@/theme/tokens";
 import { formatRelativeDate } from "@/utils/format";
+import { BottomTabBar } from "@/components/BottomTabBar";
 
 export default function InsightsScreen() {
   const router = useRouter();
@@ -351,6 +352,7 @@ function InsightCard({ ins }: { ins: Insight }) {
           </Text>
         </View>
       ) : null}
+      <BottomTabBar activeKey="ensenar" />
     </View>
   );
 }

@@ -15,6 +15,7 @@ import { IconCircle } from "@/components/ui/IconCircle";
 import { api } from "@/api";
 import type { Competencia } from "@/types";
 import { colors } from "@/theme/tokens";
+import { BottomTabBar } from "@/components/BottomTabBar";
 
 interface Evidence {
   checked: boolean;
@@ -377,6 +378,7 @@ export default function CapacidadDetail() {
           </View>
         </View>
       </ScrollView>
+      <BottomTabBar activeKey="monitorear" />
     </View>
   );
 }

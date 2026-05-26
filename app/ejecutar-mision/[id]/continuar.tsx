@@ -16,6 +16,7 @@ import { BottomSheet } from "@/components/BottomSheet";
 import { api } from "@/api";
 import type { Mission } from "@/types";
 import { colors } from "@/theme/tokens";
+import { BottomTabBar } from "@/components/BottomTabBar";
 
 const MISSION_STEPS = [
   { title: "Guía del padre", done: true },
@@ -329,6 +330,7 @@ export default function ContinuarMision() {
           />
         </View>
       </BottomSheet>
+      <BottomTabBar activeKey="ensenar" />
     </View>
   );
 }

@@ -30,6 +30,7 @@ import { SuccessToast } from "@/components/states";
 import { api } from "@/api";
 import type { SavingGoal } from "@/types";
 import { colors } from "@/theme/tokens";
+import { BottomTabBar } from "@/components/BottomTabBar";
 
 const QUICK_AMOUNTS = [20, 50, 100, 200];
 
@@ -499,6 +500,7 @@ export default function EditarMeta() {
         message="Meta actualizada"
         onClose={() => setShowToast(false)}
       />
+      <BottomTabBar activeKey="monitorear" />
     </KeyboardAvoidingView>
   );
 }

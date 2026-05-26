@@ -14,6 +14,7 @@ import { AppHeader } from "@/components/AppHeader";
 import { Button } from "@/components/ui/Button";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { BottomSheet } from "@/components/BottomSheet";
+import { BottomTabBar } from "@/components/BottomTabBar";
 import { SuccessToast } from "@/components/states";
 import { api } from "@/api";
 import type { Mission } from "@/types";
@@ -461,6 +462,8 @@ export default function MisionDetail() {
         message={toastMsg ?? ""}
         onClose={() => setToastMsg(null)}
       />
+
+      <BottomTabBar activeKey="ensenar" />
     </View>
   );
 }

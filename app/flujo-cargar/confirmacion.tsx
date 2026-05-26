@@ -18,6 +18,7 @@ import { useCargarFlow, motivoLabel, senderLabel } from "@/store/cargarFlow";
 import { api } from "@/api";
 import { colors } from "@/theme/tokens";
 import { formatCurrency } from "@/utils/format";
+import { BottomTabBar } from "@/components/BottomTabBar";
 
 const motivoIcon: Record<string, React.ComponentType<IconProps>> = {
   propina: Trophy,
@@ -191,6 +192,7 @@ function DetailRow({
         </Text>
       </View>
       <Icon size={20} color={iconColor} weight="fill" />
+      <BottomTabBar activeKey="cargar" />
     </View>
   );
 }

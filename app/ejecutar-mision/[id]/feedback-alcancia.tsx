@@ -11,6 +11,7 @@ import { AppHeader } from "@/components/AppHeader";
 import { PiggyIllustration } from "@/components/PiggyIllustration";
 import { Button } from "@/components/ui/Button";
 import { colors } from "@/theme/tokens";
+import { BottomTabBar } from "@/components/BottomTabBar";
 
 export default function FeedbackAlcancia() {
   const router = useRouter();
@@ -186,6 +187,7 @@ export default function FeedbackAlcancia() {
           onPress={onActivate}
         />
       </View>
+      <BottomTabBar activeKey="ensenar" />
     </View>
   );
 }

@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/Button";
 import { SuccessToast } from "@/components/states";
 import { useMissionAttempts } from "@/store/missionAttempts";
 import { colors } from "@/theme/tokens";
+import { BottomTabBar } from "@/components/BottomTabBar";
 
 const STORY_PAGES = [
   {
@@ -202,6 +203,7 @@ export default function Cuento() {
         message={toast ?? ""}
         onClose={() => setToast(null)}
       />
+      <BottomTabBar activeKey="ensenar" />
     </View>
   );
 }

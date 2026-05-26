@@ -16,6 +16,7 @@ import { api } from "@/api";
 import { useMissionAttempts } from "@/store/missionAttempts";
 import type { Mission } from "@/types";
 import { colors } from "@/theme/tokens";
+import { BottomTabBar } from "@/components/BottomTabBar";
 
 const MATERIALES = [
   "Frasco o caja vacía",
@@ -309,6 +310,7 @@ export default function GuiaMision() {
           onPress={() => router.replace(`/ejecutar-mision/${id}/activa` as never)}
         />
       </View>
+      <BottomTabBar activeKey="ensenar" />
     </View>
   );
 }

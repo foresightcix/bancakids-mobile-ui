@@ -8,6 +8,7 @@ import { api } from "@/api";
 import { useCargarFlow } from "@/store/cargarFlow";
 import { colors } from "@/theme/tokens";
 import { formatCurrency } from "@/utils/format";
+import { BottomTabBar } from "@/components/BottomTabBar";
 import { useState } from "react";
 
 const QUICK_AMOUNTS = [5, 10, 20, 50];
@@ -213,6 +214,7 @@ export default function MontoScreen() {
         </View>
       </ScrollView>
       <FlowFooter label="Siguiente" onPress={handleSubmit(onSubmit)} />
+      <BottomTabBar activeKey="cargar" />
     </View>
   );
 }

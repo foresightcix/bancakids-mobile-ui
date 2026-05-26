@@ -10,6 +10,7 @@ import {
   Sparkle,
 } from "phosphor-react-native";
 import { AppHeader } from "@/components/AppHeader";
+import { BottomTabBar } from "@/components/BottomTabBar";
 import { api } from "@/api";
 import { useMissionAttempts } from "@/store/missionAttempts";
 import type { Mission } from "@/types";
@@ -289,6 +290,8 @@ export default function Redo() {
           }
         />
       </ScrollView>
+
+      <BottomTabBar activeKey="ensenar" />
     </View>
   );
 }

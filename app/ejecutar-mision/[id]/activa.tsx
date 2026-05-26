@@ -15,6 +15,7 @@ import { api } from "@/api";
 import { useMissionAttempts } from "@/store/missionAttempts";
 import type { Mission } from "@/types";
 import { colors } from "@/theme/tokens";
+import { BottomTabBar } from "@/components/BottomTabBar";
 
 const CHECKLIST = [
   "Hacer una lista de lo que necesitamos",
@@ -230,6 +231,7 @@ export default function Activa() {
         message={toast ?? ""}
         onClose={() => setToast(null)}
       />
+      <BottomTabBar activeKey="ensenar" />
     </View>
   );
 }

@@ -11,6 +11,7 @@ import { AppHeader } from "@/components/AppHeader";
 import { Button } from "@/components/ui/Button";
 import { useMissionAttempts } from "@/store/missionAttempts";
 import { colors } from "@/theme/tokens";
+import { BottomTabBar } from "@/components/BottomTabBar";
 
 export default function MisionCompletada() {
   const router = useRouter();
@@ -154,6 +155,7 @@ export default function MisionCompletada() {
           </View>
         </View>
       </View>
+      <BottomTabBar activeKey="ensenar" />
     </View>
   );
 }

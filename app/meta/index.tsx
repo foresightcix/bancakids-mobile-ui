@@ -23,6 +23,7 @@ import { api } from "@/api";
 import type { SavingGoal } from "@/types";
 import { colors } from "@/theme/tokens";
 import { formatCurrency, formatShortDate, percent } from "@/utils/format";
+import { BottomTabBar } from "@/components/BottomTabBar";
 
 type Tab = "progreso" | "completadas";
 
@@ -309,6 +310,7 @@ export default function MetasAhorro() {
           </View>
         ) : null}
       </ScrollView>
+      <BottomTabBar activeKey="monitorear" />
     </View>
   );
 }
