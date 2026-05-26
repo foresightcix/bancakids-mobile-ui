@@ -12,12 +12,19 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import {
   ArrowLeft,
   ChatCircleDots,
+  House,
   Info,
+  MapPin,
+  Park,
   Play,
+  ShoppingCart,
   Sparkle,
+  Storefront,
   Target,
+  GraduationCap,
   Waveform,
   WifiHigh,
+  type IconProps,
 } from "phosphor-react-native";
 import { AppHeader } from "@/components/AppHeader";
 import { Button } from "@/components/ui/Button";
@@ -29,11 +36,34 @@ import { colors } from "@/theme/tokens";
 
 type Phase = "preview" | "listening" | "processing";
 
+type UbicacionKey = "casa" | "supermercado" | "parque" | "escuela" | "tienda";
+
+const UBICACIONES: {
+  key: UbicacionKey;
+  label: string;
+  Icon: React.ComponentType<IconProps>;
+}[] = [
+  { key: "casa", label: "Casa", Icon: House },
+  { key: "supermercado", label: "Supermercado", Icon: ShoppingCart },
+  { key: "parque", label: "Parque", Icon: Park },
+  { key: "escuela", label: "Escuela", Icon: GraduationCap },
+  { key: "tienda", label: "Tienda", Icon: Storefront },
+];
+
+const UBICACION_LABEL: Record<UbicacionKey, string> = {
+  casa: "Casa",
+  supermercado: "Supermercado",
+  parque: "Parque",
+  escuela: "Escuela",
+  tienda: "Tienda del barrio",
+};
+
 export default function PracticaIA() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
   const [mission, setMission] = useState<Mission | null>(null);
   const [phase, setPhase] = useState<Phase>("preview");
+  const [ubicacion, setUbicacion] = useState<UbicacionKey | null>(null);
 
   const getCount = useMissionAttempts((s) => s.getCount);
   const getNextEscenarioIndex = useMissionAttempts(
@@ -57,6 +87,7 @@ export default function PracticaIA() {
   }, [id]);
 
   const onStart = async () => {
+    if (!ubicacion) return;
     setPhase("listening");
     // Sofi interactúa con la alcancía IoT (simulación)
     await new Promise((r) => setTimeout(r, 3000));
@@ -198,6 +229,90 @@ export default function PracticaIA() {
           </View>
         </View>
 
+        {/* Ubicación selector */}
+        <View
+          style={{
+            backgroundColor: "#FFFFFF",
+            borderWidth: 1.5,
+            borderColor: ubicacion ? colors.primary : "#EEF2F7",
+            borderRadius: 14,
+            padding: 14,
+            gap: 10,
+          }}
+        >
+          <View
+            style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
+          >
+            <MapPin size={18} color={colors.primary} weight="fill" />
+            <View style={{ flex: 1 }}>
+              <Text
+                style={{
+                  color: colors.textPrimary,
+                  fontSize: 14,
+                  fontWeight: "700",
+                }}
+              >
+                ¿Dónde practicará Sofi?
+              </Text>
+              <Text
+                style={{
+                  color: colors.textSecondary,
+                  fontSize: 12,
+                  lineHeight: 16,
+                }}
+              >
+                Elige una ubicación para ambientar el escenario.
+              </Text>
+            </View>
+          </View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ gap: 8, paddingVertical: 2 }}
+            style={{ flexGrow: 0 }}
+          >
+            {UBICACIONES.map(({ key, label, Icon }) => {
+              const selected = ubicacion === key;
+              return (
+                <Pressable
+                  key={key}
+                  onPress={() => setUbicacion(key)}
+                  accessibilityRole="radio"
+                  accessibilityState={{ selected }}
+                  accessibilityLabel={`Ubicación ${label}`}
+                  style={({ pressed }) => ({
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 6,
+                    backgroundColor: selected
+                      ? colors.primary
+                      : colors.primarySoft,
+                    borderRadius: 100,
+                    paddingVertical: 8,
+                    paddingHorizontal: 14,
+                    opacity: pressed ? 0.85 : 1,
+                  })}
+                >
+                  <Icon
+                    size={16}
+                    color={selected ? "#FFFFFF" : colors.primary}
+                    weight="fill"
+                  />
+                  <Text
+                    style={{
+                      color: selected ? "#FFFFFF" : colors.primary,
+                      fontSize: 13,
+                      fontWeight: selected ? "700" : "600",
+                    }}
+                  >
+                    {label}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </ScrollView>
+        </View>
+
         <View
           style={{
             backgroundColor: "#FFF3E0",
@@ -299,6 +414,33 @@ export default function PracticaIA() {
               </Text>
             </View>
           </View>
+
+          {ubicacion ? (
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 6,
+                alignSelf: "flex-start",
+                backgroundColor: colors.primarySoft,
+                borderRadius: 100,
+                paddingVertical: 4,
+                paddingHorizontal: 10,
+              }}
+            >
+              <MapPin size={12} color={colors.primary} weight="fill" />
+              <Text
+                style={{
+                  color: colors.primary,
+                  fontSize: 11,
+                  fontWeight: "700",
+                }}
+              >
+                Ambientado en: {UBICACION_LABEL[ubicacion]}
+              </Text>
+            </View>
+          ) : null}
+
           <View
             style={{
               flexDirection: "row",
@@ -360,10 +502,15 @@ export default function PracticaIA() {
 
       <View style={{ paddingHorizontal: 20, paddingVertical: 12, gap: 8 }}>
         <Button
-          label="Enviar escenario a la alcancía"
+          label={
+            ubicacion
+              ? "Enviar escenario a la alcancía"
+              : "Selecciona una ubicación"
+          }
           variant="primary"
           size="md"
           fullWidth
+          disabled={!ubicacion}
           leftIcon={<Play size={18} color="#FFFFFF" weight="fill" />}
           onPress={onStart}
         />
