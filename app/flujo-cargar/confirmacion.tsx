@@ -2,7 +2,6 @@ import { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 import {
-  Bicycle,
   Coin,
   Star,
   Trophy,
@@ -10,6 +9,8 @@ import {
   Gift,
   DotsThree,
   User,
+  PiggyBank,
+  Target,
   type IconProps,
 } from "phosphor-react-native";
 import { FlowHeader } from "@/components/FlowHeader";
@@ -36,7 +37,9 @@ export default function ConfirmacionScreen() {
     motivo,
     sender,
     otroSender,
-    destino,
+    destinoTipo,
+    destinoMetaId,
+    destinoMetaTitle,
   } = useCargarFlow();
   const [loading, setLoading] = useState(false);
 
@@ -45,6 +48,12 @@ export default function ConfirmacionScreen() {
   const senderDisplay =
     sender === "otro" ? otroSender || "Otro" : sender ? senderLabel[sender] : "";
 
+  const destinoLabel =
+    destinoTipo === "alcancia"
+      ? "Alcancía de Sofi"
+      : destinoMetaTitle || "Meta de ahorro";
+  const DestinoIcon = destinoTipo === "alcancia" ? PiggyBank : Target;
+
   const onConfirm = async () => {
     if (!amount || !motivo || !sender) return;
     setLoading(true);
@@ -52,6 +61,7 @@ export default function ConfirmacionScreen() {
       amount,
       motivoLabel[motivo],
       senderDisplay,
+      destinoTipo === "meta" ? destinoMetaId : null,
     );
     setLoading(false);
     router.replace("/flujo-cargar/celebracion" as never);
@@ -105,11 +115,13 @@ export default function ConfirmacionScreen() {
           <View
             style={{ flexDirection: "row", alignItems: "center", gap: 6 }}
           >
-            <Coin size={16} color={colors.primary} weight="fill" />
+            <DestinoIcon size={16} color={colors.primary} weight="fill" />
             <Text
               style={{ color: colors.primary, fontSize: 13, fontWeight: "600" }}
             >
-              Para la alcancía de Sofi
+              {destinoTipo === "alcancia"
+                ? "Para la alcancía de Sofi"
+                : `Para la meta: ${destinoMetaTitle}`}
             </Text>
           </View>
         </View>
@@ -138,8 +150,8 @@ export default function ConfirmacionScreen() {
           <View style={{ height: 1, backgroundColor: "#EEF2F7" }} />
           <DetailRow
             label="Destino"
-            value={destino}
-            Icon={Bicycle}
+            value={destinoLabel}
+            Icon={DestinoIcon}
             iconColor={colors.primary}
           />
         </View>
@@ -149,6 +161,7 @@ export default function ConfirmacionScreen() {
         onPress={onConfirm}
         loading={loading}
       />
+      <BottomTabBar activeKey="cargar" />
     </View>
   );
 }
@@ -192,7 +205,6 @@ function DetailRow({
         </Text>
       </View>
       <Icon size={20} color={iconColor} weight="fill" />
-      <BottomTabBar activeKey="cargar" />
     </View>
   );
 }

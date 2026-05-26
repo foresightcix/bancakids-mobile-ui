@@ -10,9 +10,14 @@ import { formatCurrency } from "@/utils/format";
 
 export default function CelebracionScreen() {
   const router = useRouter();
-  const { amount, destino, reset } = useCargarFlow();
+  const { amount, destinoTipo, destinoMetaTitle, reset } = useCargarFlow();
 
   useEffect(() => () => reset(), [reset]);
+
+  const destinoLine =
+    destinoTipo === "meta" && destinoMetaTitle
+      ? `Aporte sumado a la meta: ${destinoMetaTitle}`
+      : "Disponible en la alcancía de Sofi";
 
   return (
     <View
@@ -73,7 +78,7 @@ export default function CelebracionScreen() {
               maxWidth: 300,
             }}
           >
-            El dinero ya está en la alcancía de Sofi.{"\n"}Meta actual: {destino}
+            ¡El dinero llegó!{"\n"}{destinoLine}
           </Text>
         </View>
       </View>

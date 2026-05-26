@@ -82,18 +82,20 @@ export const api = {
     amount: number,
     motivo: string,
     sender: string,
+    metaId?: string | null,
   ): Promise<Transaction> {
     await delay(1000);
     await maybeFail();
     return {
       id: `t_${Date.now()}`,
       childId: mockChild.id,
-      type: "carga",
+      type: metaId ? "meta_aporte" : "carga",
       amount,
       date: new Date().toISOString(),
       concept: motivo,
       motivo,
       sender,
+      ...(metaId ? { goalId: metaId } : {}),
     };
   },
   async login(_email: string, _password: string) {

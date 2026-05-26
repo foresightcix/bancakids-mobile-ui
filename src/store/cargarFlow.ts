@@ -16,15 +16,20 @@ export type CargarSender =
   | "tio"
   | "otro";
 
+export type CargarDestinoTipo = "alcancia" | "meta";
+
 interface CargarFlowState {
   amount: number | null;
   motivo: CargarMotivo | null;
-  destino: string;
+  destinoTipo: CargarDestinoTipo;
+  destinoMetaId: string | null;
+  destinoMetaTitle: string;
   sender: CargarSender | null;
   otroSender: string;
   setAmount: (v: number) => void;
   setMotivo: (v: CargarMotivo) => void;
-  setDestino: (v: string) => void;
+  setDestinoAlcancia: () => void;
+  setDestinoMeta: (id: string, title: string) => void;
   setSender: (v: CargarSender) => void;
   setOtroSender: (v: string) => void;
   reset: () => void;
@@ -33,19 +38,26 @@ interface CargarFlowState {
 export const useCargarFlow = create<CargarFlowState>((set) => ({
   amount: null,
   motivo: null,
-  destino: "Bicicleta nueva",
+  destinoTipo: "alcancia",
+  destinoMetaId: null,
+  destinoMetaTitle: "",
   sender: null,
   otroSender: "",
   setAmount: (amount) => set({ amount }),
   setMotivo: (motivo) => set({ motivo }),
-  setDestino: (destino) => set({ destino }),
+  setDestinoAlcancia: () =>
+    set({ destinoTipo: "alcancia", destinoMetaId: null, destinoMetaTitle: "" }),
+  setDestinoMeta: (id, title) =>
+    set({ destinoTipo: "meta", destinoMetaId: id, destinoMetaTitle: title }),
   setSender: (sender) => set({ sender }),
   setOtroSender: (otroSender) => set({ otroSender }),
   reset: () =>
     set({
       amount: null,
       motivo: null,
-      destino: "Bicicleta nueva",
+      destinoTipo: "alcancia",
+      destinoMetaId: null,
+      destinoMetaTitle: "",
       sender: null,
       otroSender: "",
     }),
