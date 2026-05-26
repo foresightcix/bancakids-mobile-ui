@@ -9,7 +9,12 @@ export interface Parent {
 }
 
 export interface Child {
+  /** Child user id (`user_id` on backend). */
   id: ID;
+  /** Child profile id (`user_profiles_child.id`). */
+  profileId: ID;
+  /** SIMPLE account id for deposits. */
+  accountId: ID;
   name: string;
   age: number;
   avatarColor: string;

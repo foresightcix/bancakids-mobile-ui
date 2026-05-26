@@ -5,6 +5,7 @@ import { useAuthStore } from "@/store/auth";
 export function useAuth() {
   const user = useAuthStore((s) => s.user);
   const token = useAuthStore((s) => s.token);
+  const child = useAuthStore((s) => s.child);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -27,15 +28,22 @@ export function useAuth() {
 
   const logout = () => run(() => api.logout());
 
+  const ensureChild = () => {
+    if (!user?.id) return;
+    run(() => api.ensureActiveChild(user.id).then(() => undefined));
+  };
+
   return {
     data: {
       user,
       token,
+      child,
     },
     fn: {
       login,
       logout,
       refreshToken,
+      ensureChild,
     },
     status: {
       loading,

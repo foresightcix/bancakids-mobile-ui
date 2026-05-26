@@ -11,9 +11,15 @@ import {
   computeBalance,
 } from "./mocks";
 import { isMock, request, withBackend } from "./http";
+import {
+  DEFAULT_CREATE_CHILD_BODY,
+  toChild,
+  toMockChild,
+  type RegisterChildBody,
+  type UserProfileChildDto,
+} from "./users";
 import { useAuthStore } from "@/store/auth";
-import type { ID, Parent, Transaction } from "@/types";
-import { MissionList } from "@/types/backend";
+import type { Child, Parent, Transaction } from "@/types";
 
 /** Toggle para simular fallos de red (útil para demo / probar ErrorState). */
 let failMode = false;
@@ -55,6 +61,51 @@ function toParent(user: Partial<Parent> & Pick<Parent, "id" | "name" | "email">)
   };
 }
 
+async function listChildren(parentId: string): Promise<Child[]> {
+  return withBackend(
+    async () => {
+      await mockStep(300);
+      return [toMockChild(computeBalance(mockChild.id))];
+    },
+    async () => {
+      const profiles = await request<UserProfileChildDto[]>(
+        `/users/${parentId}/children`,
+      );
+      return profiles.map(toChild);
+    },
+  );
+}
+
+async function createChild(
+  parentId: string,
+  body: RegisterChildBody = DEFAULT_CREATE_CHILD_BODY,
+): Promise<Child> {
+  return withBackend(
+    async () => {
+      await mockStep(400);
+      return toMockChild(computeBalance(mockChild.id));
+    },
+    async () => {
+      const profile = await request<UserProfileChildDto>(
+        `/users/${parentId}/children`,
+        {
+          method: "POST",
+          body: JSON.stringify(body),
+        },
+      );
+      return toChild(profile);
+    },
+  );
+}
+
+async function ensureActiveChild(parentId: string): Promise<Child> {
+  const children = await listChildren(parentId);
+  const active =
+    children.length > 0 ? children[0] : await createChild(parentId);
+  useAuthStore.getState().setChild(active);
+  return active;
+}
+
 export const api = {
   async getParent() {
     return withBackend(
@@ -66,9 +117,33 @@ export const api = {
     );
   },
   async getChild() {
-    await mockStep(400);
-    return { ...mockChild, balance: computeBalance(mockChild.id) };
+    const { child, user } = useAuthStore.getState();
+
+    if (child) {
+      if (isMock()) {
+        await mockStep(400);
+        return { ...child, balance: computeBalance(child.id) };
+      }
+      return child;
+    }
+
+    if (user) {
+      return ensureActiveChild(user.id);
+    }
+
+    return withBackend(
+      async () => {
+        await mockStep(400);
+        return { ...mockChild, balance: computeBalance(mockChild.id) };
+      },
+      async () => {
+        throw new Error("NO_SESSION");
+      },
+    );
   },
+  listChildren,
+  createChild,
+  ensureActiveChild,
   async getTransactions() {
     return withBackend(
       async () => {
@@ -130,31 +205,36 @@ export const api = {
           sender,
         };
       },
-      () =>
-        request<Transaction>("/transactions/external-deposit", {
-          method: "POST",
-          body: JSON.stringify({
-            amount,
-            currency: "PEN",
-            payment_provider: "yape",
-            yape_phone_number: "+51999888777",
-            yape_otp_token: "123456" ,
-            destination_account_id: mockChild.id,
-            parent_user_id: sender,
-            message: motivo,
-          }),
-        },
-        `t_${Date.now()}`
-      ),
+      () => {
+        const { child, user } = useAuthStore.getState();
+        if (!child?.accountId || !user?.id) {
+          throw new Error("NO_ACTIVE_CHILD");
+        }
+        return request<Transaction>(
+          "/transactions/external-deposit",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              amount,
+              currency: "PEN",
+              payment_provider: "yape",
+              yape_phone_number: "+51999888777",
+              yape_otp_token: "123456",
+              destination_account_id: child.accountId,
+              parent_user_id: user.id,
+              message: motivo,
+            }),
+          },
+          `t_${Date.now()}`,
+        );
+      },
     );
   },
   async login(email: string, password: string) {
-    return withBackend(
+    const result = await withBackend(
       async () => {
         await mockStep(1000);
-        const result = { token: "fake_jwt_token", parent: mockParent };
-        useAuthStore.getState().setSession(result.parent, result.token);
-        return result;
+        return { token: "fake_jwt_token", parent: mockParent };
       },
       async () => {
         const data = await request<LoginResponse>("/auth/login", {
@@ -163,10 +243,12 @@ export const api = {
           body: JSON.stringify({ email, password }),
         });
         const parent = toParent(data.user);
-        useAuthStore.getState().setSession(parent, data.token);
         return { token: data.token, parent };
       },
     );
+    useAuthStore.getState().setSession(result.parent, result.token);
+    await ensureActiveChild(result.parent.id);
+    return result;
   },
   async refreshToken() {
     const { token } = useAuthStore.getState();

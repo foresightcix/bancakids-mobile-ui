@@ -9,6 +9,8 @@ export const mockParent: Parent = {
 
 export const mockChild: Child = {
   id: "c_001",
+  profileId: "profile_c_001",
+  accountId: "account_c_001",
   name: "Sofi",
   age: 8,
   avatarColor: "#E87C31",
